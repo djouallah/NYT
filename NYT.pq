@@ -1,5 +1,5 @@
 /*
- Author Mimoune Djouallah
+ Author Mimoune Djouallah : https://datamonkeysite.com/2022/06/09/loading-1-billion-new-york-taxi-dataset-into-datamart/
  inspired from this blog https://blog.crossjoin.co.uk/2021/03/07/parquet-files-in-power-bi-power-query-and-the-streamed-binary-values-error/
 */
 
