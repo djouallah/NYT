@@ -1,6 +1,6 @@
 /*
  Author Mimoune Djouallah
- copied from this blog https://blog.crossjoin.co.uk/2021/03/07/parquet-files-in-power-bi-power-query-and-the-streamed-binary-values-error/
+ inspired from this blog https://blog.crossjoin.co.uk/2021/03/07/parquet-files-in-power-bi-power-query-and-the-streamed-binary-values-error/
 */
 
 
@@ -33,8 +33,9 @@ location=
   #"Trimmed Text" = Table.TransformColumns(#"Renamed Columns",{{"URL", Text.Trim, type text}}),
   #"Cleaned Text" = Table.TransformColumns(#"Trimmed Text",{{"URL", Text.Clean, type text}}),
   #"Filtered rows 1" = Table.SelectRows(#"Cleaned Text", each Text.StartsWith([URL], "yellow")),
+    #"Sorted Rows" = Table.Sort(#"Filtered rows 1",{{"URL", Order.Descending}}),
                                                                                                      /* Filter the number of files to download */
-  #"Filter the number of files" = Table.FirstN(#"Filtered rows 1", 2),
+  #"Filter the number of files" = Table.FirstN(#"Sorted Rows", 2),
   #"Added Custom" = Table.AddColumn(#"Filter the number of files", "Custom", each parquetfunctin([URL])),
   #"Expanded Custom" = Table.ExpandTableColumn(#"Added Custom", "Custom", {"VendorID", "tpep_pickup_datetime", "tpep_dropoff_datetime", "passenger_count", "trip_distance", "RatecodeID", "store_and_fwd_flag", "PULocationID", "DOLocationID", "payment_type", "fare_amount", "extra", "mta_tax", "tip_amount", "tolls_amount", "improvement_surcharge", "total_amount", "congestion_surcharge", "airport_fee"}, {"VendorID", "tpep_pickup_datetime", "tpep_dropoff_datetime", "passenger_count", "trip_distance", "RatecodeID", "store_and_fwd_flag", "PULocationID", "DOLocationID", "payment_type", "fare_amount", "extra", "mta_tax", "tip_amount", "tolls_amount", "improvement_surcharge", "total_amount", "congestion_surcharge", "airport_fee"}),
   #"Changed column type" = Table.TransformColumnTypes(#"Expanded Custom", {{"tpep_pickup_datetime", type datetime}, {"tpep_dropoff_datetime", type datetime}, {"VendorID", Int64.Type}, {"store_and_fwd_flag", type text}, {"passenger_count", Int64.Type}, {"PULocationID", Int64.Type}, {"DOLocationID", Int64.Type}, {"payment_type", Int64.Type}, {"RatecodeID", Int64.Type}, {"trip_distance", type number}, {"congestion_surcharge", type number}, {"airport_fee", type number}, {"total_amount", type number}, {"improvement_surcharge", type number}, {"tolls_amount", type number}, {"tip_amount", type number}, {"mta_tax", type number}, {"extra", type number}, {"fare_amount", type number}}),
