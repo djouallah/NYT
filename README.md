@@ -1,2 +1,2 @@
 # NYT
-M code to download New York Taxi dataset, by default it is limited only to 2 files, but you can change the parameter.
+M code to download New York Taxi dataset, you can customize the number of files to download, the overall dataset is around 1.5 Billion rows.
